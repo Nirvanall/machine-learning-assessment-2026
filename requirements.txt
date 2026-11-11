@@ -1,0 +1,20 @@
+polars>=0.20.31
+seaborn>=0.13.2
+scikit-learn>=1.5.0
+numpy>=1.26.4
+pandas>=2.2.2
+pyarrow>=16.1.0
+jupyter>=1.0.0
+plotly>=5.22.0
+xgboost>=2.1.0
+imblearn>=0.0
+catboost>=1.2.8
+fastapi>=0.115
+uvicorn>=0.30
+onnx>=1.17
+onnxruntime>=1.20
+skl2onnx>=1.18
+PyJWT[crypto]>=2.10
+
+# Install the relocated package so imports work from scripts and notebooks.
+-e ./assessment_2_production

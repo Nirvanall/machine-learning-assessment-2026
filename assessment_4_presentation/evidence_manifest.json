@@ -1,0 +1,92 @@
+{
+  "main_slides": 11,
+  "backup_slides": 4,
+  "talk_seconds": 750,
+  "discussion_seconds": 150,
+  "sources": {
+    "S1": [
+      {
+        "path": "assessment_1_modeling/notebooks/steam_eda_baseline_assessment.ipynb",
+        "sha256": "0fc199c626ca0ab0ebd9c212498421115d9b637af2b04da33f5905cb52178cae"
+      }
+    ],
+    "S2": [
+      {
+        "path": "artifacts/steam_experiments/quick/final_test_metrics.csv",
+        "sha256": "3f0a0d5fa4d48e8ad738f01aec3b4843399f68b9cca5ca593a45f62ae98136c2"
+      },
+      {
+        "path": "artifacts/steam_experiments/quick/five_fold_comparison.csv",
+        "sha256": "476b60dee2334ef82cc1ab449411e8ffd0512355da70b76f40871c60e4954e74"
+      },
+      {
+        "path": "artifacts/steam_experiments/quick/validation_comparison.csv",
+        "sha256": "7f024a8ed4933e286ff1c896db22fbb046750d9af9f722393b82e00feb2f8869"
+      }
+    ],
+    "S3": [
+      {
+        "path": "artifacts/steam_experiments/quick/final_test_high_owner_summary.csv",
+        "sha256": "f3097625b09e1c2443e767566dd431d57a07e62390e7aa82a80962f673a81f8b"
+      },
+      {
+        "path": "artifacts/steam_experiments/quick/final_test_category_metrics.csv",
+        "sha256": "667bc78fb551877f4998916bbe8c776d81f99605036a76d94bcbfca2f00956ff"
+      },
+      {
+        "path": "artifacts/steam_experiments/quick/final_test_confusion_matrices.csv",
+        "sha256": "1bf910603d5f8c8bdf44c2c2f70c09335861f7e0af1144adbcecc9a2e3098b31"
+      }
+    ],
+    "S4": [
+      {
+        "path": "artifacts/steam_experiments/quick/run_manifest.json",
+        "sha256": "9c3c1dd72e1cefb928bd4eb7e0499afe8201e45beb56425ce9d86a3a40f2e8d9"
+      },
+      {
+        "path": "artifacts/steam_experiments/quick/bootstrap_intervals.csv",
+        "sha256": "70520d73b574a8e134d1f4c246350a812efc79f6873d3565a9675c854f6c4ca0"
+      }
+    ],
+    "S5": [
+      {
+        "path": "assessment_2_production/README.md",
+        "sha256": "4d278f56a03f0702f6c70a88cff37fb94a16c28f1c3947721bcba85301eba57e"
+      },
+      {
+        "path": "assessment_2_production/VERIFICATION.md",
+        "sha256": "93c5dd94f1d4e51846c70bf39c480f7298122da45519189c9c1aa829be255eab"
+      }
+    ],
+    "S6": [
+      {
+        "path": "assessment_3_infrastructure/azure-blueprint.md",
+        "sha256": "49d1ffaedd8bc7832f33209b856f7cee252d4e58966d596406bcea0e9e052f93"
+      },
+      {
+        "path": "assessment_3_infrastructure/release-promotion.md",
+        "sha256": "1543175bc16454742777d6a8964e245294c91e363efadc4f84cd043f954c270f"
+      },
+      {
+        "path": "assessment_3_infrastructure/containerapp.dev.template.yaml",
+        "sha256": "338e214ef747f9c0736695ba3b4ed86b4e568aab7d3eddf0eb5d4a0a6597d309"
+      },
+      {
+        "path": "assessment_3_infrastructure/containerapp.template.yaml",
+        "sha256": "785402c61e416e0d0bbab9c854ad2c8c49a3dc7afbb54778f3e3b7ca95c6d981"
+      }
+    ],
+    "S8": [
+      {
+        "path": "assessment_4_presentation/Azure ML Production Deployment Architecture.png",
+        "sha256": "6e910f6e20032a6d4018074190e0cf86db8aa290f3aabc352492fff34cb4963c"
+      }
+    ],
+    "S7": [
+      {
+        "path": "assessment_1_modeling/notebooks/steam_model_experiments.ipynb",
+        "sha256": "f0509dc8d31102cdf52802d42c70837734b626e06edd0c5efae03a393a66f7eb"
+      }
+    ]
+  }
+}

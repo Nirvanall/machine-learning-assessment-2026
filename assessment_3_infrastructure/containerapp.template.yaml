@@ -1,0 +1,84 @@
+# PROD design template only; no deployment action.
+# Promotion prerequisite: candidate deployed/tested in DEV + independent approval.
+# Use the exact DEV-tested image digest; never rebuild/retrain between environments.
+# Artifact archive: private PROD Blob; runtime reads the bundle inside the image.
+# See release-promotion.md and containerapp.dev.template.yaml.
+# Never deploy unresolved placeholders.
+# Environment prerequisite: internal VNet environment, public access Disabled, zone redundancy enabled.
+# ACR prerequisite: private endpoints/DNS, admin Disabled; MI has AcrPull (classic RBAC mode).
+name: steam-ownership-api-prod
+location: <AZURE_REGION>
+type: Microsoft.App/containerApps
+identity:
+  type: UserAssigned
+  userAssignedIdentities:
+    <PROD_PULL_MANAGED_IDENTITY_RESOURCE_ID>: {}
+properties:
+  managedEnvironmentId: <PROD_INTERNAL_ZONE_REDUNDANT_ENVIRONMENT_RESOURCE_ID>
+  workloadProfileName: Consumption
+  configuration:
+    activeRevisionsMode: Multiple
+    ingress:
+      external: true # VNet clients can reach the INTERNAL environment; no public endpoint.
+      targetPort: 8000
+      transport: auto
+      allowInsecure: false
+      traffic:
+        - revisionName: <APPROVED_REVISION_NAME> # Explicit weights; never route to an unapproved latest revision.
+          weight: 100
+    registries:
+      - server: <PROD_PRIVATE_REGISTRY>.azurecr.io
+        identity: <PROD_PULL_MANAGED_IDENTITY_RESOURCE_ID>
+  template:
+    revisionSuffix: rf-onnx-v1
+    containers:
+      - name: prediction-api
+        image: <PROD_PRIVATE_REGISTRY>.azurecr.io/steam-rf@sha256:<DEV_TESTED_AND_APPROVED_DIGEST>
+        resources:
+          cpu: 1
+          memory: 2Gi
+        env:
+          - name: MODEL_DIR
+            value: /app/model
+          - name: AUTH_MODE
+            value: entra
+          - name: ENTRA_TENANT_ID
+            value: <TENANT_GUID>
+          - name: ENTRA_AUDIENCE
+            value: <PROD_API_APPLICATION_GUID>
+          - name: ENTRA_ALLOWED_CLIENT_IDS
+            value: <PROD_BUSINESS_CLIENT_GUID_COMMA_SEPARATED_ALLOWLIST>
+          - name: ENTRA_REQUIRED_ROLE
+            value: Steam.Predict
+          - name: MAX_CONCURRENT_PREDICTIONS
+            value: '4'
+        probes:
+          - type: Startup
+            httpGet:
+              path: /health/ready
+              port: 8000
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 30
+          - type: Readiness
+            httpGet:
+              path: /health/ready
+              port: 8000
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3
+          - type: Liveness
+            httpGet:
+              path: /health/live
+              port: 8000
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+    scale:
+      minReplicas: 2 # Minimum 2 replicas for zone redundancy; scale up to 4 replicas for concurrency.
+      maxReplicas: 4
+      rules:
+        - name: http-concurrency
+          http:
+            metadata:
+              concurrentRequests: '4'

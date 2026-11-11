@@ -1,0 +1,41 @@
+{
+  "format_version": 2,
+  "artifact_format": "onnx-random-forest",
+  "feature_schema_version": "steam-game-v1",
+  "model_version": "steam-rf-onnx-v1",
+  "model_type": "RandomForestClassifier",
+  "created_at": "2026-10-28T14:34:30.329169Z",
+  "training_observation_date": "2023-07-05",
+  "runtime_versions": {
+    "numpy": "2.5.4",
+    "pandas": "3.1.0",
+    "onnxruntime": "1.31.1",
+    "pydantic": "2.14.1"
+  },
+  "training_versions": {
+    "scikit-learn": "1.9.1",
+    "skl2onnx": "1.20.0",
+    "onnx": "1.23.2"
+  },
+  "model_sha256": "0138ab35b7a08ebd2b50a1ea11007526d18e0b0d3562410e2c0ca7f21b072271",
+  "preprocessing_sha256": "01a6106e70498eec18331f94718e8913148520e30f77d0174e43ac53cd473a89",
+  "class_ids": [
+    0,
+    1,
+    2
+  ],
+  "input_width": 477,
+  "parity_examples": 1500,
+  "max_probability_error": 2.415166704405891e-7,
+  "provenance": {
+    "recipe": "fixed-random-forest-v1",
+    "experiment_mode": "quick",
+    "experiment_manifest_sha256": "9c3c1dd72e1cefb928bd4eb7e0499afe8201e45beb56425ce9d86a3a40f2e8d9",
+    "split_manifest_sha256": "34525e65af4b4cec51725ea4134c7b95045bb6d76c9d3cf40054fed0bc94f297",
+    "dataset_sha256": "40ed656b8f5c5370d60500fbaae2f33fa43674b1157887b9868cb4198316b88c",
+    "refit_rows": 46891,
+    "test_rows_used_for_training": 0,
+    "trees": 200,
+    "seed": 42
+  }
+}

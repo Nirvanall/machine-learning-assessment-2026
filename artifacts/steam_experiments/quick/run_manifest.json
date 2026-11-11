@@ -1,0 +1,92 @@
+{
+  "run_mode": "quick",
+  "seed": 42,
+  "observation_date": "2023-07-05",
+  "dataset_file": "games-extra.parquet",
+  "dataset_version": "steam-games-extra-v1",
+  "dataset_sha256": "40ed656b8f5c5370d60500fbaae2f33fa43674b1157887b9868cb4198316b88c",
+  "dataset_manifest_sha256": "e5da496e9ac612d4b50380287fa4910efe6c1a68c25a3311a57be382dbf88a25",
+  "source_dataset_sha256": "c755572b804a5c43f4f005aacef23cadfe92ae77d03daebf908d521c81285821",
+  "python": "3.12.4",
+  "versions": {
+    "numpy": "2.5.4",
+    "pandas": "3.1.0",
+    "scikit-learn": "1.9.1",
+    "catboost": "1.2.10",
+    "scipy": "1.18.1"
+  },
+  "train_rows": 4500,
+  "validation_rows": 1500,
+  "test_rows": 11723,
+  "development_sample_rows": 6000,
+  "final_refit_rows": 46891,
+  "knn_search_iterations": 6,
+  "cat_search_iterations": 6,
+  "cv_folds": 5,
+  "catboost_feature_variant": "CatBoost + engineered + tags",
+  "inference_timing": {
+    "repeats": 3,
+    "warmup_rows": 1,
+    "aggregation": "median full-batch wall time",
+    "includes_preprocessing": true
+  },
+  "knn_best_parameters": {
+    "model__weights": "distance",
+    "model__p": 1,
+    "model__n_neighbors": 5
+  },
+  "catboost_best_parameters": {
+    "model__learning_rate": 0.08,
+    "model__l2_leaf_reg": 3,
+    "model__iterations": 250,
+    "model__depth": 4,
+    "model__auto_class_weights": "SqrtBalanced"
+  },
+  "validation_winner": "Random forest",
+  "final_model": "Random forest",
+  "class_names": [
+    "0\u2013<20k owners",
+    "20k\u2013<100k owners",
+    "100k\u2013200m owners"
+  ],
+  "preprocessing_notebook": "notebooks/mle-proccess-data-extra.ipynb",
+  "preprocessing_cleaning_report": "data/games-extra.cleaning-report.csv",
+  "feature_catalog": "feature_catalog.csv",
+  "selection_metric": "validation macro F1; ordinal RMSE and latency break ties",
+  "rf_search_iterations": 8,
+  "random_forest_best_parameters": {
+    "model__n_estimators": 200,
+    "model__min_samples_split": 5,
+    "model__min_samples_leaf": 8,
+    "model__max_samples": 0.9,
+    "model__max_features": 0.3,
+    "model__max_depth": 24,
+    "model__class_weight": "balanced_subsample"
+  },
+  "random_forest_selected_configuration": "Fixed random forest",
+  "random_forest_tuning_features": {
+    "engineered": false,
+    "tags": true,
+    "text": false
+  },
+  "final_tuning_comparison": "final_tuning_comparison.csv",
+  "forest_configuration_selection": "development CV macro F1; ordinal RMSE and inference time break ties",
+  "final_test_models": [
+    "Tuned CatBoost + engineered + tags",
+    "Random forest",
+    "Tuned random forest",
+    "Default KNN reference",
+    "Majority reference"
+  ],
+  "business_shortlist": [
+    "Tuned CatBoost + engineered + tags",
+    "Random forest",
+    "Tuned random forest"
+  ],
+  "selected_test_model": "Random forest",
+  "high_owner_class": 2,
+  "test_used_for_model_selection": false,
+  "per_category_metrics": "final_test_category_metrics.csv",
+  "high_owner_summary": "final_test_high_owner_summary.csv",
+  "confusion_matrices": "final_test_confusion_matrices.csv"
+}

@@ -1,0 +1,20 @@
+/data/**
+!/data/**/
+!/data/**/*.json
+
+*.onnx
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.svg
+*.bmp
+*.tif
+*.tiff
+*.ico
+*.heic
+*.pdf
+*.pptx
+
+/Assessment briefing - MLE.pdf

@@ -1,0 +1,84 @@
+# DEV design template only; no deployment action.
+# Purpose: debugging/integration tests before any PROD promotion.
+# Debugging fixes require a new CI candidate; do not edit a running model.
+# Artifact archive: private DEV Blob; runtime reads the bundle inside the image.
+# See release-promotion.md and containerapp.template.yaml for PROD.
+# Never deploy unresolved placeholders.
+# Environment prerequisite: internal VNet environment, public access Disabled, zone redundancy enabled.
+# ACR prerequisite: private endpoints/DNS, admin Disabled; MI has AcrPull (classic RBAC mode).
+name: steam-ownership-api-dev
+location: <AZURE_REGION>
+type: Microsoft.App/containerApps
+identity:
+  type: UserAssigned
+  userAssignedIdentities:
+    <DEV_PULL_MANAGED_IDENTITY_RESOURCE_ID>: {}
+properties:
+  managedEnvironmentId: <DEV_INTERNAL_ZONE_REDUNDANT_ENVIRONMENT_RESOURCE_ID>
+  workloadProfileName: Consumption
+  configuration:
+    activeRevisionsMode: Multiple
+    ingress:
+      external: true # VNet clients can reach the INTERNAL environment; no public endpoint.
+      targetPort: 8000
+      transport: auto
+      allowInsecure: false
+      traffic:
+        - revisionName: <DEV_CANDIDATE_REVISION_NAME> # Keep candidate traffic inside DEV.
+          weight: 100
+    registries:
+      - server: <DEV_PRIVATE_REGISTRY>.azurecr.io
+        identity: <DEV_PULL_MANAGED_IDENTITY_RESOURCE_ID>
+  template:
+    revisionSuffix: rf-onnx-v1
+    containers:
+      - name: prediction-api
+        image: <DEV_PRIVATE_REGISTRY>.azurecr.io/steam-rf@sha256:<CI_CANDIDATE_DIGEST>
+        resources:
+          cpu: 1
+          memory: 2Gi
+        env:
+          - name: MODEL_DIR
+            value: /app/model
+          - name: AUTH_MODE
+            value: entra
+          - name: ENTRA_TENANT_ID
+            value: <TENANT_GUID>
+          - name: ENTRA_AUDIENCE
+            value: <DEV_API_APPLICATION_GUID>
+          - name: ENTRA_ALLOWED_CLIENT_IDS
+            value: <DEV_ENGINEERING_CLIENT_GUID_COMMA_SEPARATED_ALLOWLIST>
+          - name: ENTRA_REQUIRED_ROLE
+            value: Steam.Predict
+          - name: MAX_CONCURRENT_PREDICTIONS
+            value: '4'
+        probes:
+          - type: Startup
+            httpGet:
+              path: /health/ready
+              port: 8000
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 30
+          - type: Readiness
+            httpGet:
+              path: /health/ready
+              port: 8000
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3
+          - type: Liveness
+            httpGet:
+              path: /health/live
+              port: 8000
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+    scale:
+      minReplicas: 0 # Minimum 0 replicas to avoid unnecessary DEV costs; scale up to 4 replicas for concurrency.
+      maxReplicas: 4
+      rules:
+        - name: http-concurrency
+          http:
+            metadata:
+              concurrentRequests: '4'

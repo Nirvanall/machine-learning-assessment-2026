@@ -1,0 +1,4 @@
+model,category,actual_high_owner_games,flagged_high_owner_games,identified_high_owner_games,missed_high_owner_games,false_high_owner_flags,high_owner_precision,high_owner_recall,high_owner_f1,high_owner_predicted_lowest_band,inference_ms_per_game
+Tuned CatBoost + engineered + tags,100k–200m owners,1243,1354,837,406,517,0.6181683899556869,0.6733708769107,0.6445899114362726,178,0.009147034120816126
+Random forest,100k–200m owners,1243,1327,822,421,505,0.6194423511680482,0.6613032984714401,0.6396887159533073,188,0.016046367738735294
+Tuned random forest,100k–200m owners,1243,1490,844,399,646,0.5664429530201343,0.6790024135156878,0.6176362971094036,117,0.014161933634625127

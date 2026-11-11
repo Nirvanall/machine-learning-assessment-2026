@@ -1,0 +1,28 @@
+feature,group
+Price,base numeric
+Required age,base numeric
+Windows,base numeric
+Mac,base numeric
+Linux,base numeric
+Achievements,base numeric
+year,base numeric
+log_price,stored engineered numeric
+log_achievements,stored engineered numeric
+log_age,stored engineered numeric
+platform_count,stored engineered numeric
+is_free,stored engineered numeric
+age_restricted,stored engineered numeric
+release_month_sin,stored engineered numeric
+release_month_cos,stored engineered numeric
+genre_count,stored engineered numeric
+category_count,stored engineered numeric
+language_count,stored engineered numeric
+description_length,stored engineered numeric
+description_word_count,stored engineered numeric
+price_missing,stored engineered numeric
+age_missing,stored engineered numeric
+achievements_missing,stored engineered numeric
+platform_flags_missing,stored engineered numeric
+Genres,genre indicators fitted in folds
+Tags,tag indicators fitted in folds
+About the game,TF-IDF fitted in folds
